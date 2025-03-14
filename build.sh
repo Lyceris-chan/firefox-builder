@@ -9,9 +9,7 @@ fi
 
 mv -f mozconfig librewolf-source/assets/mozconfig.new
 
-clear 
 cat librewolf-source/assets/mozconfig.new
-
 
 cd librewolf-source
 
