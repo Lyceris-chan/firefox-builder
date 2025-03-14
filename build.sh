@@ -7,7 +7,11 @@ if [ ! -d "librewolf-source" ]; then
     git clone --recursive https://gitlab.com/librewolf-community/browser/source.git librewolf-source
 fi
 
-mv mozconfig librewolf-source/assets/mozconfig.new
+mv -f mozconfig librewolf-source/assets/mozconfig.new
+
+clear 
+cat librewolf-source/assets/mozconfig.new
+
 
 cd librewolf-source
 
