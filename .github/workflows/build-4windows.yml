@@ -1,4 +1,4 @@
-name: Linux
+name: Windows Release
 
 on:
   workflow_dispatch:
@@ -52,5 +52,5 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./mozilla-unified/objdir-opt/dist/*.tar.*, ./*.deb"
+          artifacts: "./mozilla-unified/objdir-opt/dist/*.zip, ./*.exe"
           tag: linux-v${{ steps.version.outputs.version }}-${{ steps.release-tag.outputs.NOW }}
