@@ -52,14 +52,11 @@ jobs:
       - name: LS dir content
         id: ls
         run: |
-          ls -la ./mozilla-unified/objdir-opt/dist
-          ls -la librewolf-*/
-          ls -la 
-          ls -la objdir-opt/dist
-          ls -la dist
+          ls -la librewolf-136.0.1-1/objdir-opt
+          ls -la /librewolf-136.0.1-1/objdir-opt
         
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./mozilla-unified/objdir-opt/dist/*.zip, ./*.exe"
+          artifacts: "./librewolf-136.0.1-1/objdir-opt/*.zip, ./*.exe"
           tag: linux-v${{ steps.version.outputs.version }}-${{ steps.release-tag.outputs.NOW }}
