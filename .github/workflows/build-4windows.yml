@@ -49,6 +49,15 @@ jobs:
         id: release-tag
         run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> "$GITHUB_OUTPUT"
 
+      - name: LS dir content
+        id: ls
+        run: |
+          ls -la ./mozilla-unified/objdir-opt/dist
+          ls -la librewolf-*/
+          ls -la 
+          ls -la objdir-opt/dist
+          ls -la dist
+        
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
