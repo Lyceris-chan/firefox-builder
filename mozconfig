@@ -1,31 +1,59 @@
+#####################################
+# Base Defaults (File 1)
+#####################################
+
+# Application and browser defaults
 ac_add_options --enable-application=browser
+ac_add_options --allow-addon-sideload
+ac_add_options --disable-crashreporter
+ac_add_options --disable-debug
+ac_add_options --disable-default-browser-agent
+ac_add_options --disable-tests
+ac_add_options --disable-updater
+ac_add_options --enable-hardening
+ac_add_options --enable-jxl
+ac_add_options --enable-optimize
+ac_add_options --enable-release
+ac_add_options --enable-rust-simd
+
+# Branding and localization
+ac_add_options --with-app-name=librewolf
+ac_add_options --with-branding=browser/branding/librewolf
+ac_add_options --with-unsigned-addon-scopes=app,system
+ac_add_options --with-l10n-base=$PWD/lw/l10n
+ac_add_options --enable-bootstrap
+
+#####################################
+# Optimization Options (File 2)
+#####################################
+
+# Disable artifact builds
 ac_add_options --disable-artifact-builds
 
-# Settings :: Optimizations
+# Profile Guided Optimization & Headless Mode
 ac_add_options MOZ_PGO=1
 ac_add_options MOZ_HEADLESS=1
 ac_add_options MOZ_HEADLESS_WIDTH=1024
 ac_add_options MOZ_HEADLESS_HEIGHT=768
-ac_add_options --enable-release
-ac_add_options --disable-debug
+
+# Debug stripping and symbol removal
 ac_add_options --disable-debug-symbols
 ac_add_options --disable-debug-js-modules
-ac_add_options --disable-tests
 ac_add_options --enable-strip
 ac_add_options --enable-install-strip
+
+# Linker and compilation optimizations
 ac_add_options --enable-clang-plugin
 ac_add_options --enable-lto=full
 ac_add_options --linker=lld
-ac_add_options --enable-wasm-avx
-ac_add_options --enable-rust-simd
-ac_add_options --disable-parental-controls
-ac_add_options --disable-crashreporter
-ac_add_options --disable-updater
-ac_add_options --enable-jemalloc
-ac_add_options --with-branding=browser/branding/official
 
+# Additional performance tweaks
+ac_add_options --enable-wasm-avx
+ac_add_options --disable-parental-controls
+ac_add_options --enable-jemalloc
 ac_add_options --enable-sandbox
 
+# Disable non-essential features for performance
 ac_add_options --disable-accessibility
 ac_add_options --disable-webspeech
 ac_add_options --disable-dbus
@@ -35,18 +63,36 @@ ac_add_options --disable-webrtc
 ac_add_options --disable-synth-speechd
 ac_add_options --enable-replace-malloc
 
-mk_add_options MOZ_PARALLEL_COMPILE=4
-mk_add_options MOZ_PARALLEL_BUILD=4
+#####################################
+# Signing & Data Reporting Options
+#####################################
+
+export MOZ_REQUIRE_SIGNING=
+
 mk_add_options MOZ_CRASHREPORTER=0
 mk_add_options MOZ_DATA_REPORTING=0
 mk_add_options MOZ_SERVICES_HEALTHREPORT=0
 mk_add_options MOZ_TELEMETRY_REPORTING=0
 
+#####################################
+# Parallel Build Settings
+#####################################
+
+mk_add_options MOZ_PARALLEL_COMPILE=4
+mk_add_options MOZ_PARALLEL_BUILD=4
+
+#####################################
+# Compiler & Linker Flags (Optimizations)
+#####################################
+
 export RUSTFLAGS="-C opt-level=3 -C target-cpu=x86-64-v3 -C codegen-units=1 -Cpanic=abort -Cforce-frame-pointers=no -Cllvm-args=--inline-threshold=1000 -Cllvm-args=-vectorize-loops -Cllvm-args=-vectorize-slp"
 export CFLAGS="$CFLAGS -O3 -march=x86-64-v3 -mavx2 -maes -msse4.2 -fno-semantic-interposition -fomit-frame-pointer -fdata-sections -ffunction-sections -fno-plt -funroll-loops"
-#export CFLAGS="$CFLAGS -O3 -march=znver4 -mtune=znver4 -mavx2 -maes -msse4.2 -fno-semantic-interposition -fomit-frame-pointer -fdata-sections -ffunction-sections -fno-plt -funroll-loops"
 export CXXFLAGS="$CXXFLAGS $CFLAGS"
 export LDFLAGS="-Wl,--lto-O3 -Wl,--gc-sections -Wl,-z,now -Wl,-z,relro -Wl,--icf=all $LDFLAGS"
+
+#####################################
+# Build Options & Verbosity
+#####################################
 
 export VERBOSE=1
 mk_add_options AUTOCLOBBER=1
